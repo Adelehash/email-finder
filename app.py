@@ -23,7 +23,6 @@ def split_name(full_name):
 # -------- EMAIL PATTERNS --------
 def generate_emails(first, last, domain):
     f = first[0] if first else ""
-    l = last[0] if last else ""
 
     return list(set([
         f"{first}.{last}@{domain}",
@@ -103,13 +102,23 @@ if st.button("Find Email", type="primary"):
                     if results:
                         st.success("Emails Found 🎉")
 
-                        for email, status in results:
+                        for i, (email, status) in enumerate(results):
                             color = "green" if status == "Valid" else "orange"
 
                             st.markdown(f"""
-                            <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;
+                                        padding:8px; border-bottom:1px solid #eee;">
+                                
                                 <div>{email}</div>
-                                <div style="color:{color}; font-weight:bold;">{status}</div>
+
+                                <div style="display:flex; gap:10px; align-items:center;">
+                                    <div style="color:{color}; font-weight:bold;">{status}</div>
+
+                                    <button onclick="navigator.clipboard.writeText('{email}')"
+                                            style="padding:4px 10px; cursor:pointer;">
+                                        Copy
+                                    </button>
+                                </div>
                             </div>
                             """, unsafe_allow_html=True)
 
