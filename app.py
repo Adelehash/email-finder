@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import dns.resolver
 import smtplib
 
@@ -11,7 +10,7 @@ st.markdown("<p style='text-align:center;color:gray;'>Find email addresses using
 
 # -------- INPUT --------
 full_name = st.text_input("Full Name (e.g. Jens Johansson)")
-domain = st.text_input("Company Domain (e.g. nordicwebteam.com)")
+domain = st.text_input("Company Domain (e.g. company.com)")
 
 # -------- SPLIT NAME --------
 def split_name(full_name):
@@ -101,21 +100,22 @@ if st.button("Find Email", type="primary"):
 
                     if results:
                         st.success("Emails Found 🎉")
+                        st.markdown("### Results")
 
-                        for i, (email, status) in enumerate(results):
+                        for email, status in results:
                             color = "green" if status == "Valid" else "orange"
 
                             st.markdown(f"""
                             <div style="display:flex; justify-content:space-between; align-items:center;
-                                        padding:8px; border-bottom:1px solid #eee;">
+                                        padding:10px; border-bottom:1px solid #eee;">
                                 
-                                <div>{email}</div>
+                                <div style="font-size:15px;">{email}</div>
 
-                                <div style="display:flex; gap:10px; align-items:center;">
+                                <div style="display:flex; gap:15px; align-items:center;">
                                     <div style="color:{color}; font-weight:bold;">{status}</div>
 
                                     <button onclick="navigator.clipboard.writeText('{email}')"
-                                            style="padding:4px 10px; cursor:pointer;">
+                                            style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
                                         Copy
                                     </button>
                                 </div>
