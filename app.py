@@ -98,29 +98,33 @@ if st.button("Find Email", type="primary"):
                         if status in ["Valid", "Catch-all"]:
                             results.append((email, status))
 
-                    if results:
-                        st.success("Emails Found 🎉")
-                        st.markdown("### Results")
+                 if results:
+    st.success("Emails Found 🎉")
+    st.markdown("### Results")
 
-                        for email, status in results:
-                            color = "green" if status == "Valid" else "orange"
+    html_output = ""
 
-                            st.markdown(f"""
-                            <div style="display:flex; justify-content:space-between; align-items:center;
-                                        padding:10px; border-bottom:1px solid #eee;">
-                                
-                                <div style="font-size:15px;">{email}</div>
+    for email, status in results:
+        color = "green" if status == "Valid" else "orange"
 
-                                <div style="display:flex; gap:15px; align-items:center;">
-                                    <div style="color:{color}; font-weight:bold;">{status}</div>
+        html_output += f"""
+        <div style="display:flex; justify-content:space-between; align-items:center;
+                    padding:10px; border-bottom:1px solid #eee;">
+            
+            <div style="font-size:15px;">{email}</div>
 
-                                    <button onclick="navigator.clipboard.writeText('{email}')"
-                                            style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
-                                        Copy
-                                    </button>
-                                </div>
-                            </div>
-                            """, unsafe_allow_html=True)
+            <div style="display:flex; gap:15px; align-items:center;">
+                <div style="color:{color}; font-weight:bold;">{status}</div>
+
+                <button onclick="navigator.clipboard.writeText('{email}')"
+                        style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
+                    Copy
+                </button>
+            </div>
+        </div>
+        """
+
+    st.markdown(html_output, unsafe_allow_html=True)
 
                     else:
                         st.error("Emails not found")
