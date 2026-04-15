@@ -71,11 +71,13 @@ if st.button("Find Email", type="primary"):
 
     if not full_name or not domain:
         st.warning("Please fill both fields")
+
     else:
         first, last = split_name(full_name)
 
         if not first or not last:
             st.error("Please enter full name (first and last)")
+
         else:
             with st.spinner("Checking..."):
 
@@ -83,6 +85,7 @@ if st.button("Find Email", type="primary"):
 
                 if not mx:
                     st.error("No MX records found")
+
                 else:
                     catch_all = is_catch_all(domain, mx)
                     emails = generate_emails(first, last, domain)
@@ -98,33 +101,34 @@ if st.button("Find Email", type="primary"):
                         if status in ["Valid", "Catch-all"]:
                             results.append((email, status))
 
-                 if results:
-    st.success("Emails Found 🎉")
-    st.markdown("### Results")
+                    # ✅ FIXED BLOCK (correct indentation)
+                    if results:
+                        st.success("Emails Found 🎉")
+                        st.markdown("### Results")
 
-    html_output = ""
+                        html_output = ""
 
-    for email, status in results:
-        color = "green" if status == "Valid" else "orange"
+                        for email, status in results:
+                            color = "green" if status == "Valid" else "orange"
 
-        html_output += f"""
-        <div style="display:flex; justify-content:space-between; align-items:center;
-                    padding:10px; border-bottom:1px solid #eee;">
-            
-            <div style="font-size:15px;">{email}</div>
+                            html_output += f"""
+                            <div style="display:flex; justify-content:space-between; align-items:center;
+                                        padding:10px; border-bottom:1px solid #eee;">
+                                
+                                <div style="font-size:15px;">{email}</div>
 
-            <div style="display:flex; gap:15px; align-items:center;">
-                <div style="color:{color}; font-weight:bold;">{status}</div>
+                                <div style="display:flex; gap:15px; align-items:center;">
+                                    <div style="color:{color}; font-weight:bold;">{status}</div>
 
-                <button onclick="navigator.clipboard.writeText('{email}')"
-                        style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
-                    Copy
-                </button>
-            </div>
-        </div>
-        """
+                                    <button onclick="navigator.clipboard.writeText('{email}')"
+                                            style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            """
 
-    st.markdown(html_output, unsafe_allow_html=True)
+                        st.markdown(html_output, unsafe_allow_html=True)
 
                     else:
                         st.error("Emails not found")
