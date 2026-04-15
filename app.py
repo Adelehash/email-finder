@@ -101,7 +101,6 @@ if st.button("Find Email", type="primary"):
                         if status in ["Valid", "Catch-all"]:
                             results.append((email, status))
 
-                    # ✅ FIXED BLOCK (correct indentation)
                     if results:
                         st.success("Emails Found 🎉")
                         st.markdown("### Results")
@@ -112,23 +111,21 @@ if st.button("Find Email", type="primary"):
                             color = "green" if status == "Valid" else "orange"
 
                             html_output += f"""
-                            <div style="display:flex; justify-content:space-between; align-items:center;
-                                        padding:10px; border-bottom:1px solid #eee;">
+                            <div onclick="navigator.clipboard.writeText('{email}')"
+                                 style="display:flex; justify-content:space-between; align-items:center;
+                                        padding:10px; border-bottom:1px solid #eee;
+                                        cursor:pointer;">
                                 
                                 <div style="font-size:15px;">{email}</div>
 
-                                <div style="display:flex; gap:15px; align-items:center;">
-                                    <div style="color:{color}; font-weight:bold;">{status}</div>
-
-                                    <button onclick="navigator.clipboard.writeText('{email}')"
-                                            style="padding:4px 12px; cursor:pointer; border:1px solid #ccc; border-radius:5px; background:#f9f9f9;">
-                                        Copy
-                                    </button>
+                                <div style="color:{color}; font-weight:bold;">
+                                    {status}
                                 </div>
                             </div>
                             """
 
                         st.markdown(html_output, unsafe_allow_html=True)
+                        st.info("Click any email to copy")
 
                     else:
                         st.error("Emails not found")
