@@ -105,27 +105,19 @@ if st.button("Find Email", type="primary"):
                         st.success("Emails Found 🎉")
                         st.markdown("### Results")
 
-                        html_output = ""
-
                         for email, status in results:
-                            color = "green" if status == "Valid" else "orange"
+                            col1, col2 = st.columns([4,1])
 
-                            html_output += f"""
-                            <div onclick="navigator.clipboard.writeText('{email}')"
-                                 style="display:flex; justify-content:space-between; align-items:center;
-                                        padding:10px; border-bottom:1px solid #eee;
-                                        cursor:pointer;">
-                                
-                                <div style="font-size:15px;">{email}</div>
+                            with col1:
+                                st.code(email, language=None)
 
-                                <div style="color:{color}; font-weight:bold;">
-                                    {status}
-                                </div>
-                            </div>
-                            """
+                            with col2:
+                                if status == "Valid":
+                                    st.markdown("🟢 **Valid**")
+                                else:
+                                    st.markdown("🟠 **Catch-all**")
 
-                        st.markdown(html_output, unsafe_allow_html=True)
-                        st.info("Click any email to copy")
+                        st.info("Click the email box to easily copy it")
 
                     else:
                         st.error("Emails not found")
